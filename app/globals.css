@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #f4faff;
+  --ink: #0a1a2e;
+  --sky: #1ea7ff;
+  --mist: #cfeaff;
+  --card: #ffffff;
+  --grid: rgba(30, 167, 255, 0.16);
+  --glitch: #6a5cff;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #061424; --ink: #eaf6ff; --card: #0e2238; --grid: rgba(30, 167, 255, 0.24);
+  }
+}
+
+@layer base {
+  html { scroll-padding-top: calc(72px + env(safe-area-inset-top, 0px)); }
+  body {
+    @apply font-sans text-ink antialiased;
+    background-color: var(--bg);
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 32px 32px;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    overflow-x: hidden;
+  }
+  h1, h2, h3 { @apply font-display uppercase tracking-tight; }
+  :focus-visible { outline: 3px solid var(--sky); outline-offset: 3px; }
+}
+
+@layer components {
+  .card { @apply rounded-2xl border-[2.5px] border-ink bg-card p-4 shadow-zine; }
+  .btn { @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border-[2.5px] border-ink bg-sky px-[18px] py-[11px] font-mono text-sm font-bold uppercase text-[#0a1a2e] transition-transform; box-shadow: 4px 4px 0 var(--ink); }
+  .btn:hover:not(:disabled) { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--ink); }
+  .btn:disabled { @apply cursor-not-allowed opacity-50; }
+  .btn-w { background: var(--card); color: var(--ink); }
+  .btn-s { @apply px-3 py-[7px] text-xs; }
+  .chip { @apply mb-1.5 mr-1.5 inline-block cursor-pointer rounded-full border-2 border-ink bg-mist px-2.5 py-1 font-mono text-xs font-bold text-[#0a1a2e]; }
+  .chip-on { @apply bg-sky; }
+  .chip-static { @apply cursor-default; }
+  .lbl { @apply font-mono text-xs font-bold uppercase; }
+  .field { @apply mb-3.5 mt-1.5 w-full rounded-[10px] border-[2.5px] border-ink bg-card px-3 py-2.5 font-mono text-[15px] text-ink; }
+  .field:focus { outline: none; box-shadow: 4px 4px 0 var(--sky); }
+  .meter { @apply h-4 overflow-hidden rounded-full border-[2.5px] border-ink bg-card; }
+  .meter > i { @apply block h-full; background: repeating-linear-gradient(45deg, var(--sky) 0 8px, #6cc4ff 8px 16px); transition: width 0.9s cubic-bezier(0.2, 1.2, 0.4, 1); }
+  .big { @apply font-display text-[44px] text-sky; -webkit-text-stroke: 1.5px var(--ink); }
+  .av { @apply grid flex-none -rotate-[5deg] place-items-center rounded-[14px] border-[2.5px] border-ink font-display text-[#0a1a2e]; }
+  .sw { @apply relative h-7 w-[54px] cursor-pointer rounded-full border-[2.5px] border-ink bg-card; }
+  .sw::after { content: ""; @apply absolute left-0.5 top-0.5 h-[19px] w-[19px] rounded-full bg-ink; transition: left 0.2s; }
+  .sw[aria-checked="true"] { @apply bg-sky; }
+  .sw[aria-checked="true"]::after { left: 28px; }
+  .mark { @apply inline-block -skew-x-6 border-[2.5px] border-ink bg-sky px-2 text-[#0a1a2e]; }
+  .note { @apply inline-block -rotate-[4deg] font-hand text-[22px] text-sky; }
+  .tick { @apply -mx-4 mb-9 mt-1.5 -rotate-1 overflow-hidden whitespace-nowrap border-[2.5px] border-ink bg-ink font-mono text-[15px] font-bold text-paper; }
+  .tick > div { display: inline-block; padding: 9px 0; animation: mq 24s linear infinite; }
+  .dd { @apply pointer-events-none absolute fill-none stroke-sky; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; animation: fl 4s ease-in-out infinite alternate; }
+
+  .gl { position: relative; }
+  .gl:hover::before, .gl:hover::after { content: attr(data-t); position: absolute; inset: 0; pointer-events: none; }
+  .gl:hover::before { color: var(--glitch); transform: translate(-3px, 1px); clip-path: inset(0 0 55% 0); animation: gj 0.3s steps(2) infinite; }
+  .gl:hover::after { color: var(--sky); transform: translate(3px, -1px); clip-path: inset(50% 0 0 0); animation: gj 0.3s steps(2) infinite reverse; }
+
+  /* Nyx, the seated mascot */
+  .stage { position: relative; padding-top: 196px; perspective: 900px; }
+  .sit { position: absolute; top: 0; left: 50%; z-index: 3; width: 220px; margin-left: -110px; cursor: pointer; -webkit-tap-highlight-color: transparent; filter: drop-shadow(0 7px 0 rgba(10, 26, 46, 0.2)); transform: rotateY(var(--ry, 0deg)) rotateX(var(--rx, 0deg)); transition: transform 0.18s ease-out; }
+  .sit svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .sit svg.hop { animation: hp 0.55s; }
+  .legL { transform-origin: 92px 184px; animation: sl 2.2s ease-in-out infinite alternate; }
+  .legR { transform-origin: 128px 184px; animation: sl 2.2s ease-in-out infinite alternate-reverse; }
+  .sway { transform-origin: 110px 70px; animation: hs 3.5s ease-in-out infinite alternate; }
+  .wave { transform-origin: 148px 136px; }
+  .waving .wave { animation: wv 0.95s ease-in-out; }
+  .lid { transform-box: fill-box; transform-origin: top; transform: scaleY(0); transition: transform 0.07s; }
+  .blink .lid { transform: scaleY(1); }
+  .say { position: absolute; top: 4px; right: 0; z-index: 4; max-width: 135px; border: 2.5px solid var(--ink); border-radius: 14px 14px 14px 2px; background: var(--card); padding: 7px 11px; font: 700 12px "Space Mono", monospace; box-shadow: 3px 3px 0 var(--ink); }
+  .say.pop { animation: pp 0.35s; }
+}
+
+@keyframes mq { to { transform: translateX(-50%); } }
+@keyframes fl { to { transform: translateY(-10px) rotate(8deg); } }
+@keyframes gj { 50% { transform: translate(4px, 0); } }
+@keyframes hp { 40% { transform: translateY(-22px); } }
+@keyframes sl { from { transform: rotate(-9deg); } to { transform: rotate(9deg); } }
+@keyframes hs { from { transform: rotate(-1.6deg); } to { transform: rotate(1.6deg); } }
+@keyframes wv { 0%, 100% { transform: rotate(0); } 25%, 70% { transform: rotate(-150deg); } 40% { transform: rotate(-132deg); } 55% { transform: rotate(-165deg); } }
+@keyframes pp { from { transform: scale(0.5) rotate(-6deg); opacity: 0; } }
+@keyframes tin { from { opacity: 0; transform: translate(-50%, 20px); } }
+@keyframes spark { to { opacity: 0; transform: translate(var(--x), var(--y)) rotate(200deg) scale(0.3); } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
